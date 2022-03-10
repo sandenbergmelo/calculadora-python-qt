@@ -1,8 +1,14 @@
 from PyQt5 import QtWidgets, uic
+from re import split, escape
 
 # Initialize the application
 app = QtWidgets.QApplication([])
 window = uic.loadUi('gui/ui/main.ui')
+
+def custom_split(separator, string): # Split a string by a separator
+    # Create a regex to split by a separator
+    exp = '|'.join(map(escape, separator))
+    return split(exp, string)
 
 def push_number(number): # Push a number to the output
     output = window.output
@@ -11,11 +17,16 @@ def push_number(number): # Push a number to the output
 def add_comma():# Add a comma to the output
     output = window.output
     
-    # If there is already a comma, do nothing
-    if '.' in output.text():
+    # If there is a comma in any position after an operation
+    # or on the first position, do nothing
+    separator = ['+', '-', '*', '/']
+    after_an_operation = custom_split(separator, output.text())[-1].find('.')
+    if after_an_operation != -1:
         return
-    if output.text() == '':
-        output.setText('0')
+    
+    # If output is empty or the last character is an operation, add a 0
+    if output.text() == '' or output.text()[-1] in '+-*/':
+        output.setText(output.text() + '0')
     
     output.setText(output.text() + '.')
 
@@ -25,11 +36,12 @@ def delete_last_character(): # Delete the last character in the output
 def operation(operation):# Add an operation to the output
     output = window.output
 
+    if output.text() == '':
+        output.setText('0')
+
     # If the last character is an operation, replace it
     if output.text()[-1] in '+-*/':
         delete_last_character()
-    if output.text() == '':
-        output.setText('0')
     
     output.setText(output.text() + operation)
 
@@ -38,10 +50,13 @@ def calculate(): # Calculate the output
 
     if output.text() == '':
         output.setText('0')
+    
     # If the output ends with an operation, delete it
     if output.text()[-1] in '+-*/':
         delete_last_character()
+    
     result = str(eval(output.text()))
+
     output.setText(result)
 
 # Event of the numbers buttons of the calculator
