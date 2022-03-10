@@ -1,17 +1,28 @@
 from PyQt5 import QtWidgets, uic
 from re import split, escape
+from gui.pop_up import pop_up
 
 # Initialize the application
 app = QtWidgets.QApplication([])
 window = uic.loadUi('gui/ui/main.ui')
 
-def custom_split(separator, string): # Split a string by a separator
+def custom_split(separator, string):# Split a string by a separator
     # Create a regex to split by a separator
     exp = '|'.join(map(escape, separator))
     return split(exp, string)
 
-def push_number(number): # Push a number to the output
+def push_number(number):# Push a number to the output
+
     output = window.output
+
+    if output.text() == '0':
+        output.setText('')
+    
+    # If last character is 0 and penultimate is an operation, delete the 0
+    if len(output.text()) > 2:
+        if output.text()[-1] == '0' and output.text()[-2] in '+-*/':
+            delete_last_character()
+    
     output.setText(output.text() + str(number))
 
 def add_comma():# Add a comma to the output
@@ -30,7 +41,7 @@ def add_comma():# Add a comma to the output
     
     output.setText(output.text() + '.')
 
-def delete_last_character(): # Delete the last character in the output
+def delete_last_character():# Delete the last character in the output
     window.output.setText(window.output.text()[:-1])
 
 def operation(operation):# Add an operation to the output
@@ -45,7 +56,7 @@ def operation(operation):# Add an operation to the output
     
     output.setText(output.text() + operation)
 
-def calculate(): # Calculate the output
+def calculate():# Calculate the output
     output = window.output
 
     if output.text() == '':
@@ -55,7 +66,11 @@ def calculate(): # Calculate the output
     if output.text()[-1] in '+-*/':
         delete_last_character()
     
-    result = str(eval(output.text()))
+    try:
+        result = str(eval(output.text()))
+    except ZeroDivisionError:
+        pop_up('Erro', 'Impossível dividir por 0')
+        result = ''
 
     output.setText(result)
 
