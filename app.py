@@ -25,9 +25,9 @@ def delete_last_character(): # Delete the last character in the output
 def operation(operation):# Add an operation to the output
     output = window.output
 
-    # If the last character is an operation, do nothing
+    # If the last character is an operation, replace it
     if output.text()[-1] in '+-*/':
-        return
+        delete_last_character()
     if output.text() == '':
         output.setText('0')
     
