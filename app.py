@@ -54,6 +54,10 @@ def operation(operation):# Add an operation to the output
     if output.text()[-1] in '+-*/':
         delete_last_character()
     
+    # If there is an operation in the output, calculate
+    if not output.text().isnumeric():
+        calculate()
+    
     output.setText(output.text() + operation)
 
 def calculate():# Calculate the output
