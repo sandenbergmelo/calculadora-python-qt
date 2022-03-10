@@ -1,0 +1,11 @@
+__pycache__/
+dist/
+venv/
+env/
+senhas.txt
+temas.png
+testes.py
+*.ico
+venv/
+build/
+*.spec
