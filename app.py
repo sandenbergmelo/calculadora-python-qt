@@ -74,7 +74,7 @@ window.btnDivide.clicked.connect(lambda: operation('/'))
 window.btnPower.clicked.connect(lambda: operation('**'))
 
 # Event of the equal button of the calculator
-window.btnEqual.clicked.connect(lambda: calculate())
+window.btnEqual.clicked.connect(calculate)
 
 # Show the application
 window.show()
