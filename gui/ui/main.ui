@@ -374,7 +374,7 @@
      <string>-</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnTimes">
+   <widget class="QPushButton" name="btnMultiply">
     <property name="geometry">
      <rect>
       <x>240</x>
@@ -395,7 +395,7 @@
      <string>x</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnDivid">
+   <widget class="QPushButton" name="btnDivide">
     <property name="geometry">
      <rect>
       <x>240</x>
@@ -416,7 +416,7 @@
      <string>/</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnPercent">
+   <widget class="QPushButton" name="btnPower">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -434,7 +434,7 @@
      </font>
     </property>
     <property name="text">
-     <string>%</string>
+     <string>x^y</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnEqual">
