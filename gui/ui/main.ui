@@ -481,11 +481,29 @@
      <x>0</x>
      <y>0</y>
      <width>336</width>
-     <height>21</height>
+     <height>27</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuConfig">
+    <property name="title">
+     <string>Configurações</string>
+    </property>
+    <addaction name="actionAutoCalc"/>
+   </widget>
+   <addaction name="menuConfig"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionAutoCalc">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Calcular automaticamente</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

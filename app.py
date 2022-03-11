@@ -54,8 +54,8 @@ def operation(operation):# Add an operation to the output
     if output.text()[-1] in '+-*/':
         delete_last_character()
     
-    # If there is an operation in the output, calculate
-    if not output.text().isnumeric():
+    # If 'Calcular automaticamente' is checked, calculate the output
+    if window.actionAutoCalc.isChecked() and not output.text().isnumeric():
         calculate()
     
     output.setText(output.text() + operation)
@@ -78,7 +78,7 @@ def calculate():# Calculate the output
 
     output.setText(result)
 
-# Event of the numbers buttons of the calculator
+# Events of the numbers buttons of the calculator
 window.btnNumber1.clicked.connect(lambda: push_number(1))
 window.btnNumber2.clicked.connect(lambda: push_number(2))
 window.btnNumber3.clicked.connect(lambda: push_number(3))
@@ -93,14 +93,14 @@ window.btnNumber0.clicked.connect(lambda: push_number(0))
 # Event of the comma button of the calculator
 window.btnComma.clicked.connect(add_comma)
 
-# Event of the clear buttons of the calculator
+# Events of the clear buttons of the calculator
 window.btnC.clicked.connect(lambda: window.output.setText(''))
 window.btnCE.clicked.connect(lambda: window.output.setText(''))
 
 # Event of the delete button of the calculator
 window.btnDelete.clicked.connect(delete_last_character)
 
-# Event of the operation buttons of the calculator
+# Events of the operation buttons of the calculator
 window.btnPlus.clicked.connect(lambda: operation('+'))
 window.btnMinus.clicked.connect(lambda: operation('-'))
 window.btnMultiply.clicked.connect(lambda: operation('*'))
