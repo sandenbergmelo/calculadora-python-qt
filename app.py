@@ -1,10 +1,22 @@
 from PyQt5 import QtWidgets, uic
 from re import split, escape
 from gui.pop_up import pop_up
+import json
 
 # Initialize the application
 app = QtWidgets.QApplication([])
 window = uic.loadUi('gui/ui/main.ui')
+
+# Read the config file
+with open('config.json', 'r') as config_file:
+    configs = json.load(config_file)
+
+def change_theme(theme):# Change the theme
+    theme = open(f'themes/{theme}.css').read()
+    window.setStyleSheet(theme)
+
+change_theme(configs['theme'])
+# Set the theme according to the config file
 
 def custom_split(separator, string):# Split a string by a separator
     # Create a regex to split by a separator
@@ -109,6 +121,10 @@ window.btnPower.clicked.connect(lambda: operation('**'))
 
 # Event of the equal button of the calculator
 window.btnEqual.clicked.connect(calculate)
+
+# Event of the theme button of the calculator
+window.actionThemeDefault.triggered.connect(lambda: change_theme('default'))
+window.actionThemeDracula.triggered.connect(lambda: change_theme('dracula'))
 
 # Show the application
 window.show()

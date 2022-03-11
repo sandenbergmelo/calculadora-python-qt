@@ -455,13 +455,13 @@
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(120, 178, 179);</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>=</string>
     </property>
    </widget>
-   <widget class="Line" name="line">
+   <widget class="Line" name="separator">
     <property name="geometry">
      <rect>
       <x>220</x>
@@ -488,7 +488,16 @@
     <property name="title">
      <string>Configurações</string>
     </property>
+    <widget class="QMenu" name="menuTema">
+     <property name="title">
+      <string>Tema</string>
+     </property>
+     <addaction name="actionThemeDefault"/>
+     <addaction name="actionThemeDracula"/>
+    </widget>
     <addaction name="actionAutoCalc"/>
+    <addaction name="separator"/>
+    <addaction name="menuTema"/>
    </widget>
    <addaction name="menuConfig"/>
   </widget>
@@ -503,7 +512,41 @@
    <property name="text">
     <string>Calcular automaticamente</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::PreferencesRole</enum>
+   </property>
   </action>
+  <actiongroup name="themesGroup">
+   <action name="actionThemeDefault">
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="text">
+     <string>Padrão</string>
+    </property>
+    <property name="toolTip">
+     <string>Theme</string>
+    </property>
+    <property name="menuRole">
+     <enum>QAction::PreferencesRole</enum>
+    </property>
+   </action>
+   <action name="actionThemeDracula">
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="icon">
+     <iconset theme="Theme">
+      <normaloff>.</normaloff>.</iconset>
+    </property>
+    <property name="text">
+     <string>Dracula</string>
+    </property>
+    <property name="menuRole">
+     <enum>QAction::PreferencesRole</enum>
+    </property>
+   </action>
+  </actiongroup>
  </widget>
  <resources/>
  <connections/>
