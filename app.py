@@ -7,6 +7,8 @@ import json
 app = QtWidgets.QApplication([])
 window = uic.loadUi('gui/ui/main.ui')
 
+app.setStyle('Fusion')
+
 # Read the config file
 with open('config.json', 'r') as config_file:
     configs = json.load(config_file)
@@ -15,8 +17,8 @@ def change_theme(theme):# Change the theme
     theme = open(f'themes/{theme}.css').read()
     window.setStyleSheet(theme)
 
-change_theme(configs['theme'])
 # Set the theme according to the config file
+change_theme(configs['theme'])
 
 def custom_split(separator, string):# Split a string by a separator
     # Create a regex to split by a separator
