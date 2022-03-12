@@ -1,10 +1,28 @@
 from PyQt5 import QtWidgets, uic
 from re import split, escape
 from gui.pop_up import pop_up
+import json
 
 # Initialize the application
 app = QtWidgets.QApplication([])
 window = uic.loadUi('gui/ui/main.ui')
+
+app.setStyle('Fusion')
+
+# Read the config file
+with open('config.json', 'r') as config_file:
+    configs = json.load(config_file)
+
+def change_theme(theme_name):# Change the theme
+    theme = open(f'themes/{theme_name}.css').read()
+    window.setStyleSheet(theme)
+
+    with open('config.json', 'w') as configs_file:
+        configs['theme'] = theme_name
+        json.dump(configs, configs_file, indent=4)
+
+# Set the theme according to the config file
+change_theme(configs['theme'])
 
 def custom_split(separator, string):# Split a string by a separator
     # Create a regex to split by a separator
@@ -60,6 +78,10 @@ def operation(operation):# Add an operation to the output
     
     output.setText(output.text() + operation)
 
+    # If the only character is an operation, delete it
+    if output.text() in '+-*/' or output.text() == '**':
+        output.setText('')
+
 def calculate():# Calculate the output
     output = window.output
 
@@ -109,6 +131,10 @@ window.btnPower.clicked.connect(lambda: operation('**'))
 
 # Event of the equal button of the calculator
 window.btnEqual.clicked.connect(calculate)
+
+# Event of the theme button of the calculator
+window.actionThemeDefault.triggered.connect(lambda: change_theme('default'))
+window.actionThemeDracula.triggered.connect(lambda: change_theme('dracula'))
 
 # Show the application
 window.show()
