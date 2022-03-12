@@ -2,7 +2,6 @@ from PyQt5 import QtWidgets, uic
 from re import split, escape
 from gui.pop_up import pop_up
 import json
-from rich import print
 
 # Initialize the application
 app = QtWidgets.QApplication([])
