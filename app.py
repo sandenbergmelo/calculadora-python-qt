@@ -78,6 +78,10 @@ def operation(operation):# Add an operation to the output
     
     output.setText(output.text() + operation)
 
+    # If the only character is an operation, delete it
+    if output.text() in '+-*/' or output.text() == '**':
+        output.setText('')
+
 def calculate():# Calculate the output
     output = window.output
 

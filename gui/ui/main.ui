@@ -501,7 +501,6 @@
    </widget>
    <addaction name="menuConfig"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAutoCalc">
    <property name="checkable">
     <bool>true</bool>
