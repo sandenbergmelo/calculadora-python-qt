@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets, uic
 from re import split, escape
 from gui.pop_up import pop_up
 import json
+from rich import print
 
 # Initialize the application
 app = QtWidgets.QApplication([])
@@ -13,9 +14,13 @@ app.setStyle('Fusion')
 with open('config.json', 'r') as config_file:
     configs = json.load(config_file)
 
-def change_theme(theme):# Change the theme
-    theme = open(f'themes/{theme}.css').read()
+def change_theme(theme_name):# Change the theme
+    theme = open(f'themes/{theme_name}.css').read()
     window.setStyleSheet(theme)
+
+    with open('config.json', 'w') as configs_file:
+        configs['theme'] = theme_name
+        json.dump(configs, configs_file, indent=4)
 
 # Set the theme according to the config file
 change_theme(configs['theme'])
