@@ -434,7 +434,7 @@
      </font>
     </property>
     <property name="text">
-     <string>x^y</string>
+     <string>^</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnEqual">

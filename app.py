@@ -97,6 +97,13 @@ def calculate():# Calculate the output
     except ZeroDivisionError:
         pop_up('Erro', 'Impossível dividir por 0')
         result = ''
+    except:
+        pop_up('Erro', 'Um erro inesperado aconteceu')
+        result = ''
+    
+    # If result is larger than the maximum 16 digits, format it
+    if len(result) > 16:
+        result = f'{float(result):5.5}'
 
     output.setText(result)
 
