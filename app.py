@@ -108,16 +108,8 @@ def calculate():# Calculate the output
     output.setText(result)
 
 # Events of the numbers buttons of the calculator
-window.btnNumber1.clicked.connect(lambda: push_number(1))
-window.btnNumber2.clicked.connect(lambda: push_number(2))
-window.btnNumber3.clicked.connect(lambda: push_number(3))
-window.btnNumber4.clicked.connect(lambda: push_number(4))
-window.btnNumber5.clicked.connect(lambda: push_number(5))
-window.btnNumber6.clicked.connect(lambda: push_number(6))
-window.btnNumber7.clicked.connect(lambda: push_number(7))
-window.btnNumber8.clicked.connect(lambda: push_number(8))
-window.btnNumber9.clicked.connect(lambda: push_number(9))
-window.btnNumber0.clicked.connect(lambda: push_number(0))
+for i in range(10):
+    exec(f'window.btnNumber{i}.clicked.connect(lambda: push_number({i}))')
 
 # Event of the comma button of the calculator
 window.btnComma.clicked.connect(add_comma)
