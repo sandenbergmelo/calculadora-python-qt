@@ -107,12 +107,12 @@ def calculate():# Calculate the output
 
     output.setText(result)
 
-# Events of the numbers buttons of the calculator
-for i in range(10):
+for i in range(10):# Events of the numbers buttons of the calculator
     exec(f'window.btnNumber{i}.clicked.connect(lambda: push_number({i}))')
 
 # Event of the comma button of the calculator
 window.btnComma.clicked.connect(add_comma)
+QtWidgets.QShortcut('.', window, window.btnComma.click)
 
 # Events of the clear buttons of the calculator
 window.btnC.clicked.connect(lambda: window.output.setText(''))
@@ -128,8 +128,10 @@ window.btnMultiply.clicked.connect(lambda: operation('*'))
 window.btnDivide.clicked.connect(lambda: operation('/'))
 window.btnPower.clicked.connect(lambda: operation('**'))
 
-# Event of the equal button of the calculator
+# Events of the equal button of the calculator
 window.btnEqual.clicked.connect(calculate)
+QtWidgets.QShortcut('Return', window, window.btnEqual.click)
+QtWidgets.QShortcut('Enter', window, window.btnEqual.click)
 
 # Event of the theme button of the calculator
 window.actionThemeDefault.triggered.connect(lambda: change_theme('default'))
