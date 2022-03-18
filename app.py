@@ -1,7 +1,8 @@
-from PyQt5 import QtWidgets, uic
-from re import split, escape
-from gui.pop_up import pop_up
 import json
+from re import split, escape
+from PyQt5 import QtWidgets, uic
+from gui.pop_up import pop_up
+
 
 # Initialize the application
 app = QtWidgets.QApplication([])
@@ -13,7 +14,7 @@ app.setStyle('Fusion')
 with open('config.json', 'r') as config_file:
     configs = json.load(config_file)
 
-def change_theme(theme_name):# Change the theme
+def change_theme(theme_name):  # Change the theme
     theme = open(f'themes/{theme_name}.css').read()
     window.setStyleSheet(theme)
 
@@ -24,26 +25,29 @@ def change_theme(theme_name):# Change the theme
 # Set the theme according to the config file
 change_theme(configs['theme'])
 
-def custom_split(separator, string):# Split a string by a separator
+
+def custom_split(separator, string):  # Split a string by a separator
     # Create a regex to split by a separator
     exp = '|'.join(map(escape, separator))
     return split(exp, string)
 
-def push_number(number):# Push a number to the output
 
+def push_number(number):  # Push a number to the output
     output = window.output
 
     if output.text() == '0':
         output.setText('')
     
     # If last character is 0 and penultimate is an operation, delete the 0
-    if len(output.text()) > 2:
-        if output.text()[-1] == '0' and output.text()[-2] in '+-*/':
-            delete_last_character()
+    if (len(output.text()) > 2 
+            and output.text()[-1] == '0'
+            and output.text()[-2] in '+-*/'):
+        delete_last_character()
     
     output.setText(output.text() + str(number))
 
-def add_comma():# Add a comma to the output
+
+def add_comma():  # Add a comma to the output
     output = window.output
     
     # If there is a comma in any position after an operation
@@ -59,10 +63,12 @@ def add_comma():# Add a comma to the output
     
     output.setText(output.text() + '.')
 
-def delete_last_character():# Delete the last character in the output
+
+def delete_last_character():  # Delete the last character in the output
     window.output.setText(window.output.text()[:-1])
 
-def operation(operation):# Add an operation to the output
+
+def operation(operation):  # Add an operation to the output
     output = window.output
 
     if output.text() == '':
@@ -82,7 +88,8 @@ def operation(operation):# Add an operation to the output
     if output.text() in '+-*/' or output.text() == '**':
         output.setText('')
 
-def calculate():# Calculate the output
+
+def calculate():  # Calculate the output
     output = window.output
 
     if output.text() == '':
@@ -107,7 +114,8 @@ def calculate():# Calculate the output
 
     output.setText(result)
 
-for i in range(10):# Events of the numbers buttons of the calculator
+
+for i in range(10):  # Events of the numbers buttons of the calculator
     exec(f'window.btnNumber{i}.clicked.connect(lambda: push_number({i}))')
 
 # Event of the comma button of the calculator
