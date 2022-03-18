@@ -15,8 +15,10 @@ with open('config.json', 'r') as config_file:
     configs = json.load(config_file)
 
 def change_theme(theme_name):  # Change the theme
-    theme = open(f'themes/{theme_name}.css').read()
-    window.setStyleSheet(theme)
+
+    with open(f'themes/{theme_name}.css', 'r') as theme_file:
+        theme = theme_file.read()
+        window.setStyleSheet(theme)
 
     with open('config.json', 'w') as configs_file:
         configs['theme'] = theme_name
@@ -94,7 +96,7 @@ def calculate():  # Calculate the output
     if output.text() == '':
         output.setText('0')
     
-    # If the output ends with an operation, delete it
+    # If the output ends with an operation, delete it and calculate
     if output.text()[-1] in '+-*/':
         delete_last_character()
     
