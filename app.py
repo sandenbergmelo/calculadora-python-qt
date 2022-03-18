@@ -25,7 +25,6 @@ def change_theme(theme_name):  # Change the theme
 # Set the theme according to the config file
 change_theme(configs['theme'])
 
-
 def custom_split(separator, string):  # Split a string by a separator
     # Create a regex to split by a separator
     exp = '|'.join(map(escape, separator))
