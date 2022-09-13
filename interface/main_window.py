@@ -1,8 +1,9 @@
 import json
-from re import split, escape
-from PySide6 import QtWidgets
+
+from PySide6.QtGui import QShortcut
 from PySide6.QtWidgets import QMainWindow
-from utils.ui_utils import msg_box
+
+from utils.ui_utils import msg_box, custom_split
 from .ui_main import Ui_MainWindow
 
 
@@ -13,7 +14,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setWindowTitle('Calculadora')
 
         # Read the config file
-        with open('config.json', 'r') as config_file:
+        with open('config/config.json', 'r') as config_file:
             self.configs = json.load(config_file)
 
         # Set the theme according to the config file
@@ -23,13 +24,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Connect the buttons to the functions #
         ########################################
 
-        for i in range(10):  # Events of the numbers buttons of the calculator
-            exec(
-                f'self.btnNumber{i}.clicked.connect(lambda: self.push_number({i}))')
+        # Events of the numbers buttons of the calculator
+        self.btnNumber0.clicked.connect(lambda: self.push_number(0))
+        self.btnNumber1.clicked.connect(lambda: self.push_number(1))
+        self.btnNumber2.clicked.connect(lambda: self.push_number(2))
+        self.btnNumber3.clicked.connect(lambda: self.push_number(3))
+        self.btnNumber4.clicked.connect(lambda: self.push_number(4))
+        self.btnNumber5.clicked.connect(lambda: self.push_number(5))
+        self.btnNumber6.clicked.connect(lambda: self.push_number(6))
+        self.btnNumber7.clicked.connect(lambda: self.push_number(7))
+        self.btnNumber8.clicked.connect(lambda: self.push_number(8))
+        self.btnNumber9.clicked.connect(lambda: self.push_number(9))
 
         # Event of the comma button of the calculator
         self.btnComma.clicked.connect(self.add_comma)
-        QtWidgets.QShortcut('.', self, self.btnComma.click)
+        QShortcut('.', self, self.btnComma.click)
 
         # Events of the clear buttons of the calculator
         self.btnC.clicked.connect(lambda: self.output.setText(''))
@@ -47,8 +56,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Events of the equal button of the calculator
         self.btnEqual.clicked.connect(self.calculate)
-        QtWidgets.QShortcut('Return', self, self.btnEqual.click)
-        QtWidgets.QShortcut('Enter', self, self.btnEqual.click)
+        QShortcut('Return', self, self.btnEqual.click)
+        QShortcut('Enter', self, self.btnEqual.click)
 
         # Event of the theme button of the calculator
         self.actionThemeDefault.triggered.connect(
@@ -58,18 +67,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def change_theme(self, theme_name):  # Change the theme
 
-        with open(f'themes/{theme_name}.css', 'r') as theme_file:
+        with open(f'config/themes/{theme_name}.css', 'r') as theme_file:
             theme = theme_file.read()
             self.setStyleSheet(theme)
 
-        with open('config.json', 'w') as configs_file:
+        with open('config/config.json', 'w') as configs_file:
             self.configs['theme'] = theme_name
             json.dump(self.configs, configs_file, indent=4)
-
-    def _custom_split(self, separator, string):  # Split a string by a separator
-        # Create a regex to split by a separator
-        exp = '|'.join(map(escape, separator))
-        return split(exp, string)
 
     def push_number(self, number):  # Push a number to the output
         if self.output.text() == '0':
@@ -87,7 +91,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # If there is a comma in any position after an operation
         # or on the first position, do nothing
         separator = ['+', '-', '*', '/']
-        after_an_operation = self._custom_split(
+        after_an_operation = custom_split(
             separator, self.output.text())[-1].find('.')
         if after_an_operation != -1:
             return
