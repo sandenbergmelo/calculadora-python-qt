@@ -3,7 +3,7 @@ from re import split, escape
 from PySide6.QtWidgets import QMessageBox
 
 
-def msg_box(titulo, texto, icone='information'):
+def msg_box(title, txt, icon='information'):
 
     icons = {'information': QMessageBox.Information,
              'warning': QMessageBox.Warning,
@@ -11,9 +11,9 @@ def msg_box(titulo, texto, icone='information'):
              'question': QMessageBox.Question}
 
     msg = QMessageBox()
-    msg.setWindowTitle(titulo)
-    msg.setText(texto)
-    msg.setIcon(icons[icone])
+    msg.setWindowTitle(title)
+    msg.setText(txt)
+    msg.setIcon(icons[icon])
     msg.exec()
 
 
