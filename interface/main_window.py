@@ -12,6 +12,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__()
         self.setupUi(self)
         self.setWindowTitle('Calculadora')
+        self.setFixedSize(self.size())
 
         # Read the config file
         with open('config/config.json', 'r') as config_file:
@@ -102,7 +103,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.output.setText(self.output.text() + '.')
 
-    def _delete_last_character(self):  # Delete the last character in the output
+    # Delete the last character in the output
+    def _delete_last_character(self):
         self.output.setText(self.output.text()[:-1])
 
     def add_operation(self, operation):  # Add an operation to the output
