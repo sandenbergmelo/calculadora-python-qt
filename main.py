@@ -1,10 +1,12 @@
+from sys import argv
+
 from PySide6.QtWidgets import QApplication
 
 from interface.main_window import MainWindow
 
 
 def main():
-    app = QApplication([])
+    app = QApplication(argv)
     window = MainWindow()
 
     app.setStyle('Fusion')
