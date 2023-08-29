@@ -1,5 +1,5 @@
 import json
-from os.path import abspath, dirname
+from pathlib import Path
 
 from PySide6.QtGui import QShortcut
 from PySide6.QtWidgets import QMainWindow
@@ -14,7 +14,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setWindowTitle('Calculadora')
         self.setFixedSize(self.size())
-        self._parent_dir_path = dirname(dirname(abspath(__file__)))
+
+        self._parent_dir_path = str(Path(__file__).absolute().parent.parent)
         self._config_file_path = f'{self._parent_dir_path}/config/config.json'
 
         # Read the config file
