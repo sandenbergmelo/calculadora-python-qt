@@ -1,4 +1,4 @@
-from re import split, escape
+from re import escape, split
 
 from PySide6.QtWidgets import QMessageBox
 

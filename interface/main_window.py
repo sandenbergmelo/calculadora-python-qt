@@ -4,7 +4,7 @@ from PySide6.QtGui import QShortcut
 from PySide6.QtWidgets import QMainWindow
 
 from interface.ui_main import Ui_MainWindow
-from utils.ui_utils import msg_box, custom_split
+from utils.ui_utils import custom_split, msg_box
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
