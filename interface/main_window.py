@@ -1,4 +1,5 @@
 import json
+from os.path import abspath, dirname
 
 from PySide6.QtGui import QShortcut
 from PySide6.QtWidgets import QMainWindow
@@ -13,9 +14,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setWindowTitle('Calculadora')
         self.setFixedSize(self.size())
+        self._parent_dir_path = dirname(dirname(abspath(__file__)))
+        self._config_file_path = f'{self._parent_dir_path}/config/config.json'
 
         # Read the config file
-        with open('config/config.json', 'r') as config_file:
+        with open(self._config_file_path, 'r') as config_file:
             self.configs = json.load(config_file)
 
         # Set the theme according to the config file
@@ -67,12 +70,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             lambda: self.change_theme('dracula'))
 
     def change_theme(self, theme_name):  # Change the theme
+        themes_folder = f'{self._parent_dir_path}/config/themes'
 
-        with open(f'config/themes/{theme_name}.css', 'r') as theme_file:
+        with open(f'{themes_folder}/{theme_name}.css', 'r') as theme_file:
             theme = theme_file.read()
             self.setStyleSheet(theme)
 
-        with open('config/config.json', 'w') as configs_file:
+        with open(self._config_file_path, 'w') as configs_file:
             self.configs['theme'] = theme_name
             json.dump(self.configs, configs_file, indent=4)
 
