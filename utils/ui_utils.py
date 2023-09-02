@@ -17,6 +17,10 @@ def msg_box(title, txt, icon='information'):
     msg.exec()
 
 
+def replace_math_symbols(string: str):
+    return string.replace('^', '**').replace('×', '*')
+
+
 def custom_split(separator, string):  # Split a string by a separator
     # Create a regex to split by a separator
     exp = '|'.join(map(escape, separator))

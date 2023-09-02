@@ -5,7 +5,7 @@ from PySide6.QtGui import QShortcut
 from PySide6.QtWidgets import QMainWindow
 
 from interface.ui_main import Ui_MainWindow
-from utils.ui_utils import custom_split, msg_box
+from utils.ui_utils import custom_split, msg_box, replace_math_symbols
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -15,6 +15,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setWindowTitle('Calculadora')
         self.setFixedSize(self.size())
 
+        self._operators = ['+', '-', '×', '/', '^']
         self._parent_dir_path = str(Path(__file__).absolute().parent.parent)
         self._config_file_path = f'{self._parent_dir_path}/config/config.json'
 
@@ -55,9 +56,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Events of the operation buttons of the calculator
         self.btnPlus.clicked.connect(lambda: self.add_operation('+'))
         self.btnMinus.clicked.connect(lambda: self.add_operation('-'))
-        self.btnMultiply.clicked.connect(lambda: self.add_operation('*'))
+        self.btnMultiply.clicked.connect(lambda: self.add_operation('×'))
         self.btnDivide.clicked.connect(lambda: self.add_operation('/'))
-        self.btnPower.clicked.connect(lambda: self.add_operation('**'))
+        self.btnPower.clicked.connect(lambda: self.add_operation('^'))
 
         # Events of the equal button of the calculator
         self.btnEqual.clicked.connect(self.calculate)
@@ -82,13 +83,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             json.dump(self.configs, configs_file, indent=4)
 
     def push_number(self, number):  # Push a number to the output
-        if self.output.text() == '0':
+        output = self.output.text()
+
+        if output == '0':
             self.output.setText('')
 
         # If last character is 0 and penultimate is an operation, delete the 0
-        if (len(self.output.text()) > 2
-                and self.output.text()[-1] == '0'
-                and self.output.text()[-2] in '+-*/'):
+        if (len(output) > 2 and output[-1] == '0'
+                and output[-2] in self._operators):
             self._delete_last_character()
 
         self.output.setText(self.output.text() + str(number))
@@ -96,14 +98,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def add_comma(self):  # Add a comma to the output
         # If there is a comma in any position after an operation
         # or on the first position, do nothing
-        separator = ['+', '-', '*', '/']
-        string = self.output.text()
-        has_comma = custom_split(separator, string)[-1].find('.')
+        output = self.output.text()
+        has_comma = custom_split(self._operators, output)[-1].find('.')
         if has_comma != -1:
             return
 
         # If output is empty or the last character is an operation, add a 0
-        if self.output.text() == '' or self.output.text()[-1] in '+-*/':
+        if output == '' or output[-1] in self._operators:
             self.output.setText(self.output.text() + '0')
 
         self.output.setText(self.output.text() + '.')
@@ -118,7 +119,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.output.setText('0')
 
         # If the last character is an operation, replace it
-        if self.output.text()[-1] in '+-*/':
+        if self.output.text()[-1] in self._operators:
             self._delete_last_character()
 
         # If 'Calcular automaticamente' is checked, calculate the output
@@ -128,7 +129,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.output.setText(self.output.text() + operation)
 
         # If the only character is an operation, delete it
-        if self.output.text() in '+-*/' or self.output.text() == '**':
+        if self.output.text() in self._operators:
             self.output.setText('')
 
     def calculate(self):  # Calculate the output
@@ -137,11 +138,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.output.setText('0')
 
         # If the output ends with an operation, delete it and calculate
-        if self.output.text()[-1] in '+-*/':
+        if self.output.text()[-1] in self._operators:
             self._delete_last_character()
 
+        output_to_calc = replace_math_symbols(self.output.text())
+
         try:
-            result = str(eval(self.output.text()))
+            result = str(eval(output_to_calc))
         except ZeroDivisionError:
             msg_box('Erro', 'Impossível dividir por 0', 'critical')
             result = ''
