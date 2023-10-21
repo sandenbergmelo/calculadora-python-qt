@@ -16,8 +16,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setFixedSize(self.size())
 
         self._operators = ['+', '-', '×', '/', '^']
-        self._parent_dir_path = str(Path(__file__).absolute().parent.parent)
-        self._config_file_path = f'{self._parent_dir_path}/config/config.json'
+        self._parent_dir_path = Path(__file__).absolute().parent.parent
+        self._config_file_path = self._parent_dir_path / 'config/config.json'
 
         # Read the config file
         with open(self._config_file_path, 'r') as config_file:
