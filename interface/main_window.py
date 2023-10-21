@@ -15,12 +15,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setWindowTitle('Calculadora')
         self.setFixedSize(self.size())
 
-        self._operators = ['+', '-', '×', '/', '^']
-        self._parent_dir_path = Path(__file__).absolute().parent.parent
-        self._config_file_path = self._parent_dir_path / 'config/config.json'
+        self.__operators = ['+', '-', '×', '/', '^']
+        self.__parent_dir_path = Path(__file__).absolute().parent.parent
+        self.__config_file_path = self.__parent_dir_path / 'config/config.json'
 
         # Read the config file
-        with open(self._config_file_path, 'r') as config_file:
+        with open(self.__config_file_path, 'r') as config_file:
             self.configs = json.load(config_file)
 
         # Set the theme according to the config file
@@ -72,14 +72,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             lambda: self.change_theme('dracula'))
 
     def change_theme(self, theme_name):  # Change the theme
-        themes_folder_path = self._parent_dir_path / 'config/themes'
+        themes_folder_path = self.__parent_dir_path / 'config/themes'
         theme_file_path = themes_folder_path / f'{theme_name}.css'
 
         with open(theme_file_path, 'r') as theme_file:
             theme = theme_file.read()
             self.setStyleSheet(theme)
 
-        with open(self._config_file_path, 'w') as config_file:
+        with open(self.__config_file_path, 'w') as config_file:
             self.configs['theme'] = theme_name
             json.dump(self.configs, config_file, indent=4)
 
@@ -91,7 +91,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # If last character is 0 and penultimate is an operation, delete the 0
         if (len(output) > 2 and output[-1] == '0'
-                and output[-2] in self._operators):
+                and output[-2] in self.__operators):
             self._delete_last_character()
 
         self.output.setText(self.output.text() + str(number))
@@ -100,12 +100,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # If there is a comma in any position after an operation
         # or on the first position, do nothing
         output = self.output.text()
-        has_comma = custom_split(self._operators, output)[-1].find('.')
+        has_comma = custom_split(self.__operators, output)[-1].find('.')
         if has_comma != -1:
             return
 
         # If output is empty or the last character is an operation, add a 0
-        if output == '' or output[-1] in self._operators:
+        if output == '' or output[-1] in self.__operators:
             self.output.setText(self.output.text() + '0')
 
         self.output.setText(self.output.text() + '.')
@@ -120,7 +120,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.output.setText('0')
 
         # If the last character is an operation, replace it
-        if self.output.text()[-1] in self._operators:
+        if self.output.text()[-1] in self.__operators:
             self._delete_last_character()
 
         # If 'Calcular automaticamente' is checked, calculate the output
@@ -130,7 +130,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.output.setText(self.output.text() + operation)
 
         # If the only character is an operation, delete it
-        if self.output.text() in self._operators:
+        if self.output.text() in self.__operators:
             self.output.setText('')
 
     def calculate(self):  # Calculate the output
@@ -139,7 +139,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.output.setText('0')
 
         # If the output ends with an operation, delete it and calculate
-        if self.output.text()[-1] in self._operators:
+        if self.output.text()[-1] in self.__operators:
             self._delete_last_character()
 
         output_to_calc = replace_math_symbols(self.output.text())
