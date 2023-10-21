@@ -72,15 +72,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             lambda: self.change_theme('dracula'))
 
     def change_theme(self, theme_name):  # Change the theme
-        themes_folder = f'{self._parent_dir_path}/config/themes'
+        themes_folder_path = self._parent_dir_path / 'config/themes'
+        theme_file_path = themes_folder_path / f'{theme_name}.css'
 
-        with open(f'{themes_folder}/{theme_name}.css', 'r') as theme_file:
+        with open(theme_file_path, 'r') as theme_file:
             theme = theme_file.read()
             self.setStyleSheet(theme)
 
-        with open(self._config_file_path, 'w') as configs_file:
+        with open(self._config_file_path, 'w') as config_file:
             self.configs['theme'] = theme_name
-            json.dump(self.configs, configs_file, indent=4)
+            json.dump(self.configs, config_file, indent=4)
 
     def push_number(self, number):  # Push a number to the output
         output = self.output.text()
