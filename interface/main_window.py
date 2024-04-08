@@ -106,7 +106,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def add_comma(self) -> None:
         # If there is a comma in any position after an operation
         # or on the first position, do nothing
-        output_txt = self.output.text()
+        output_txt: str = self.output.text()
         has_comma = custom_split(self.__operators, output_txt)[-1].find('.')
         if has_comma != -1:
             return

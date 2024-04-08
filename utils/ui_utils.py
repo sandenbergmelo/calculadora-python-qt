@@ -23,7 +23,7 @@ def replace_math_symbols(string: str):
 
 
 # Split a string by a separator
-def custom_split(separator: str, string: str) -> list[str | Any]:
+def custom_split(separators: list[str], string: str) -> list[str | Any]:
     # Create a regex to split by a separator
-    exp = '|'.join(map(escape, separator))
+    exp = '|'.join(map(escape, separators))
     return split(exp, string)
