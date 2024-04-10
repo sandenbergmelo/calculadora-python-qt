@@ -4,10 +4,10 @@ from typing import Any, Literal
 from PySide6.QtWidgets import QMessageBox
 
 IconType = Literal['information', 'warning', 'critical', 'question']
-icons = {'information': QMessageBox.Information,
-         'warning': QMessageBox.Warning,
-         'critical': QMessageBox.Critical,
-         'question': QMessageBox.Question}
+icons = {'information': QMessageBox.Icon.Information,
+         'warning': QMessageBox.Icon.Warning,
+         'critical': QMessageBox.Icon.Critical,
+         'question': QMessageBox.Icon.Question}
 
 
 def msg_box(title: str, txt: str, icon: IconType = 'information') -> None:
@@ -23,7 +23,7 @@ def replace_math_symbols(string: str):
 
 
 # Split a string by a separator
-def custom_split(separators: list[str], string: str) -> list[str | Any]:
+def custom_split(separators: list[str] | str, string: str) -> list[str | Any]:
     # Create a regex to split by a separator
     exp = '|'.join(map(escape, separators))
     return split(exp, string)

@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
         "icone"
-    ]
+    ],
+    "python.analysis.typeCheckingMode": "basic"
 }
