@@ -24,7 +24,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.configs: dict[str, str | bool] = json.load(config_file)
 
         # Set the theme according to the config file
-        self.change_theme(self.configs['theme']) # type: ignore
+        self.change_theme(self.configs['theme'])  # type: ignore
 
         ########################################
         # Connect the buttons to the functions #
@@ -77,6 +77,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def _append_text_to_output(self, text: str) -> None:
         self._set_output_text(self.output.text() + text)
 
+    def _delete_last_character(self) -> None:
+        self._set_output_text(self.output.text()[:-1])
+
     def change_theme(self, theme_name: str) -> None:
         themes_folder_path = self.__parent_dir_path / 'config/themes'
         theme_file_path = themes_folder_path / f'{theme_name}.css'
@@ -116,9 +119,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self._append_text_to_output('0')
 
         self._append_text_to_output('.')
-
-    def _delete_last_character(self) -> None:
-        self._set_output_text(self.output.text()[:-1])
 
     def add_operator(self, operation: str) -> None:
 
