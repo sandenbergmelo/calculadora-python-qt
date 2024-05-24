@@ -24,7 +24,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.configs: dict[str, str | bool] = json.load(config_file)
 
         # Set the theme according to the config file
-        self.change_theme(self.configs['theme'])
+        self.change_theme(self.configs['theme']) # type: ignore
 
         ########################################
         # Connect the buttons to the functions #
