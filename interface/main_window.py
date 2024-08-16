@@ -20,7 +20,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.__config_file_path = self.__parent_dir_path / 'config/config.json'
 
         # Read the config file
-        with open(self.__config_file_path, 'r') as config_file:
+        with open(self.__config_file_path, 'r') as config_file:  # noqa: PLW1514
             self.configs: dict[str, str | bool] = json.load(config_file)
 
         # Set the theme according to the config file
@@ -67,9 +67,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Event of the theme button of the calculator
         self.actionThemeDefault.triggered.connect(
-            lambda: self.change_theme('default'))
+            lambda: self.change_theme('default')
+        )
         self.actionThemeDracula.triggered.connect(
-            lambda: self.change_theme('dracula'))
+            lambda: self.change_theme('dracula')
+        )
 
     def _set_output_text(self, text: str) -> None:
         self.output.setText(text)
@@ -84,11 +86,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         themes_folder_path = self.__parent_dir_path / 'config/themes'
         theme_file_path = themes_folder_path / f'{theme_name}.css'
 
-        with open(theme_file_path, 'r') as theme_file:
+        with open(theme_file_path, 'r') as theme_file:  # noqa: PLW1514
             theme = theme_file.read()
             self.setStyleSheet(theme)
 
-        with open(self.__config_file_path, 'w') as config_file:
+        with open(self.__config_file_path, 'w') as config_file:  # noqa: PLW1514
             self.configs['theme'] = theme_name
             json.dump(self.configs, config_file, indent=4)
 
@@ -100,8 +102,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self._set_output_text('')
 
         # If last character is 0 and penultimate is an operation, delete the 0
-        if (len(output) > 2 and output[-1] == '0'
-                and output[-2] in self.__operators):
+        if (
+            len(output) > 2  # noqa: PLR2004
+            and output[-1] == '0'
+            and output[-2] in self.__operators
+        ):
             self._delete_last_character()
 
         self._append_text_to_output(str(number))
@@ -109,20 +114,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def add_comma(self) -> None:
         # If there is a comma in any position after an operation
         # or on the first position, do nothing
-        output_txt: str = self.output.text()
+        output_txt = self.output.text()
         has_comma = custom_split(self.__operators, output_txt)[-1].find('.')
         if has_comma != -1:
             return
 
         # If output is empty or the last character is an operation, add a 0
-        if output_txt == '' or output_txt[-1] in self.__operators:
+        if not output_txt or output_txt[-1] in self.__operators:
             self._append_text_to_output('0')
 
         self._append_text_to_output('.')
 
     def add_operator(self, operation: str) -> None:
-
-        if self.output.text() == '':
+        if not self.output.text():
             self._set_output_text('0')
 
         # If the last character is an operation, replace it
@@ -130,7 +134,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self._delete_last_character()
 
         # If 'Calcular automaticamente' is checked, calculate the output
-        if self.actionAutoCalc.isChecked() and not self.output.text().isnumeric():
+        if (
+            self.actionAutoCalc.isChecked()
+            and not self.output.text().isnumeric()
+        ):
             self.calculate()
 
         self._append_text_to_output(operation)
@@ -140,8 +147,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self._set_output_text('')
 
     def calculate(self) -> None:
-
-        if self.output.text() == '':
+        if not self.output.text():
             self._set_output_text('0')
 
         # If the output ends with an operation, delete it and calculate
@@ -161,7 +167,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             result = ''
 
         # If result is larger than the maximum 16 digits, format it
-        if len(result) > 16:
+        if len(result) > 16:  # noqa: PLR2004
             result = f'{float(result):5.5}'
 
         self._set_output_text(result)

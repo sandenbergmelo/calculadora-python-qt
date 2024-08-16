@@ -4,10 +4,12 @@ from typing import Any, Literal
 from PySide6.QtWidgets import QMessageBox
 
 IconType = Literal['information', 'warning', 'critical', 'question']
-icons = {'information': QMessageBox.Icon.Information,
-         'warning': QMessageBox.Icon.Warning,
-         'critical': QMessageBox.Icon.Critical,
-         'question': QMessageBox.Icon.Question}
+icons = {
+    'information': QMessageBox.Icon.Information,
+    'warning': QMessageBox.Icon.Warning,
+    'critical': QMessageBox.Icon.Critical,
+    'question': QMessageBox.Icon.Question,
+}
 
 
 def msg_box(title: str, txt: str, icon: IconType = 'information') -> None:
