@@ -13,11 +13,11 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install Poetry
-        run: pip install poetry
+      - name: Install uv
+        run: pip install uv
 
       - name: Install dependencies
-        run: poetry install
+        run: uv sync
 
       - name: Execute linter
-        run: poetry run task lint
+        run: uv run task lint
