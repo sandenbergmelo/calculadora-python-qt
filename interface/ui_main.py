@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.3.2
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -44,8 +44,8 @@ class Ui_MainWindow(object):
         if QIcon.hasThemeIcon(iconThemeName):
             icon = QIcon.fromTheme(iconThemeName)
         else:
-            icon.addFile(u".", QSize(), QIcon.Normal, QIcon.Off)
-        
+            icon.addFile(u".", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+
         self.actionThemeDracula.setIcon(icon)
         self.actionThemeDracula.setMenuRole(QAction.PreferencesRole)
         self.centralwidget = QWidget(MainWindow)
@@ -144,8 +144,8 @@ class Ui_MainWindow(object):
         self.separator = QFrame(self.centralwidget)
         self.separator.setObjectName(u"separator")
         self.separator.setGeometry(QRect(220, 110, 16, 241))
-        self.separator.setFrameShape(QFrame.VLine)
-        self.separator.setFrameShadow(QFrame.Sunken)
+        self.separator.setFrameShape(QFrame.Shape.VLine)
+        self.separator.setFrameShadow(QFrame.Shadow.Sunken)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")

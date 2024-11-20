@@ -1,26 +1,12 @@
-[tool.poetry]
+[project]
 name = "calculadora-python-qt"
 version = "0.1.0"
-description = ""
-authors = [
-    "Sandenberg Ferreira Melo <77549672+sandenbergmelo@users.noreply.github.com>",
-]
 readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["pyside6>=6.8.0.2"]
 
-[tool.poetry.dependencies]
-python = ">=3.12.*,<3.13,"
-pyside6 = "^6.7.2"
-
-[tool.taskipy.tasks]
-dev = 'python main.py'
-run = 'python main.py'
-
-lint = 'ruff check . && ruff check . --diff'
-format = 'ruff check . --fix && ruff format .'
-
-[tool.poetry.group.dev.dependencies]
-taskipy = "^1.13.0"
-ruff = "^0.6.0"
+[dependency-groups]
+dev = ["ruff>=0.7.4", "taskipy>=1.14.0"]
 
 [tool.ruff]
 line-length = 79
@@ -34,6 +20,10 @@ select = ['I', 'F', 'E', 'W', 'PL', 'PT']
 preview = true
 quote-style = 'single'
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.taskipy.tasks]
+dev = 'python main.py'
+run = 'python main.py'
+convert-ui = 'pyside6-uic ui/main.ui -o interface/ui_main.py'
+
+lint = 'ruff check . && ruff check . --diff'
+format = 'ruff check . --fix && ruff format .'
